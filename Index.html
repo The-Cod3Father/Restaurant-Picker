@@ -4,8 +4,9 @@
     <title>Restaurant Picker</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -13,34 +14,54 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
         .container {
-            background-color: #fff;
+            background-color: #1E1E1E;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
         }
         .title {
             font-size: 24px;
             margin-bottom: 20px;
         }
         .button {
-            background-color: #007BFF;
-            color: #fff;
+            background-color: #BB86FC;
+            color: #121212;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 5px;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #9b60d9;
         }
         .result {
             margin-top: 20px;
             font-size: 18px;
-            color: #333;
+            color: #E0E0E0;
+        }
+        .input-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .input-container input {
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #333;
+            color: #E0E0E0;
+        }
+        .input-container button {
+            padding: 10px 20px;
         }
     </style>
 </head>
@@ -49,26 +70,56 @@
         <div class="title">Restaurant Picker</div>
         <button class="button" onclick="pickRestaurant()">Pick a Restaurant</button>
         <div class="result" id="result"></div>
+        <div class="input-container">
+            <input type="text" id="newRestaurant" placeholder="Add new restaurant">
+            <button class="button" onclick="addRestaurant()">Add</button>
+        </div>
+        <button class="button" onclick="shareApp()">Share App</button>
     </div>
 
     <script>
-        const restaurants = [
-            "Johny's'",
-            "Gibbons",
-            "Dila's'",
-            "Don Juans",
-            "Tiger Chicken",
-            "Crawl Daddy's'",
-            "Chinese Buffet",
-            "Firehouse Subs",
-            "Windrush",
-            "Something Tasty"
+        let restaurants = [
+            "Pizza Place",
+            "Sushi Spot",
+            "Burger Joint",
+            "Taco Truck",
+            "Steakhouse",
+            "Pasta Palace",
+            "Seafood Shack",
+            "Vegan Bistro",
+            "Deli Delight",
+            "BBQ Barn"
         ];
 
         function pickRestaurant() {
             const randomIndex = Math.floor(Math.random() * restaurants.length);
             const selectedRestaurant = restaurants[randomIndex];
             document.getElementById('result').innerText = `Selected Restaurant: ${selectedRestaurant}`;
+        }
+
+        function addRestaurant() {
+            const newRestaurant = document.getElementById('newRestaurant').value;
+            if (newRestaurant) {
+                restaurants.push(newRestaurant);
+                document.getElementById('newRestaurant').value = '';
+                alert('Restaurant added successfully!');
+            } else {
+                alert('Please enter a restaurant name.');
+            }
+        }
+
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Restaurant Picker',
+                    text: 'Check out this Restaurant Picker app!',
+                    url: window.location.href
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch(console.error);
+            } else {
+                alert('Your browser does not support the share feature.');
+            }
         }
     </script>
 </body>
